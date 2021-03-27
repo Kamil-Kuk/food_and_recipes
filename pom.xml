@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.kamilkuk</groupId>
-    <artifactId>food_and_recipies</artifactId>
+    <artifactId>food_and_recipes</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>food_and_recipies</name>
-    <description>Project for food and reciepies service</description>
+    <name>food_and_recipes</name>
+    <description>Project for food and recipes service</description>
     <properties>
         <java.version>11</java.version>
     </properties>
