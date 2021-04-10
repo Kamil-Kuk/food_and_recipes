@@ -19,12 +19,6 @@ public class Product {
     private String name;
     private String weightUnit;
     private double weight;
-//    private WeightUnit weightUnit;
-//    @Transient
-//    private double volume;
-//    @Transient
-//    private VolumeUnit volumeUnit;
-
     private double kcal;
     private double proteins;
     private double fat;

@@ -5,8 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
-import java.util.Set;
+import javax.validation.constraints.Size;
+import java.util.Map;
 
 @Data
 @NoArgsConstructor
@@ -18,21 +18,30 @@ public class Recipe {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String label;
+    private String title;
     private String imageURL;
     private String youTubeURL;
-    private String category;
-    private String cuisineRegion;
+
+    @Size(max = 5000)
     private String instructions;
 
-    @OneToMany
-    private Set<Product> ingredients;
+    @ElementCollection
+    @CollectionTable(name = "recipe_product_mapping",
+            joinColumns = {@JoinColumn(name = "recipe_id", referencedColumnName = "id")})
+    @MapKeyJoinColumn(name = "product_id")
+    @Column(name = "quantity")
+    private Map<Product, Double> ingredients;
 
-//    @Enumerated(EnumType.STRING)
-//    private CousineRegion cuisineRegion;
+    @Enumerated(EnumType.STRING)
+    private CusineRegion region;
 
-//    @Enumerated(EnumType.STRING)
-//    private CousineCategory cousineCategory;
+    @Enumerated(EnumType.STRING)
+    private CusineCategory category;
+    private double kcal;
+    private double proteins;
+    private double fat;
+    private double carbs;
+    private double fiber;
 
 //    @ManyToMany
 //    private Set<Allergen> allergens;

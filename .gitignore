@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+/src/main/java/com/kamilkuk/food_and_recipes/deserialization/recipes/
+/src/main/java/com/kamilkuk/food_and_recipes/deserialization/mealDB/
+/src/main/java/com/kamilkuk/food_and_recipes/deserialization/edamam/
+/database/
