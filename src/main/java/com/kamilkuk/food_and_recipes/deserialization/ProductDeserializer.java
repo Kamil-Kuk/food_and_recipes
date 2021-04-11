@@ -88,6 +88,20 @@ public class ProductDeserializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+//        double ozToMl = 0.03381402255891948;
+//        Product milkOz = productService.getByNameAndWeightUnit("Milk","Ounce").get(0);
+//        Product milkMl = new Product();
+//        milkMl.setName(milkOz.getName());
+//        milkMl.setCarbs(milkOz.getCarbs()/ozToMl);
+//        milkMl.setFat(milkOz.getFat()*ozToMl);
+//        milkMl.setFiber(milkOz.getFiber()*ozToMl);
+//        milkMl.setKcal(milkOz.getKcal()*ozToMl);
+//        milkMl.setProteins(milkOz.getProteins()*ozToMl);
+//        milkMl.setWeight(milkOz.getWeight()*ozToMl);
+//        milkMl.setWeightUnit("Mililiter");
+//        productService.save(milkMl);
+
+
 //        List<ProductMealDB> products = getProductListMealDB();
 //        for (int i = 0; i <= 572; i++) {
 //            if (i == 49 || i == 165 || i == 337 || i == 493 || i == 566) { //skip on 'Challots', 'Hotsauce', 'Pilchards', 'Doubanjiang', 'Mulukhiyah'

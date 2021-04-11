@@ -43,15 +43,24 @@ public class Recipe {
     private double carbs;
     private double fiber;
 
-//    @ManyToMany
-//    private Set<Allergen> allergens;
-
-//    @ElementCollection(targetClass = Allergen.class)
-//    @CollectionTable(name = "recipe_allergen",
-//            joinColumns = @JoinColumn(name = "recipe_id"))
-//    @Enumerated(EnumType.STRING)
-//    @Column(name = "allergen_name")
-//    private Set<Allergen> allergens;
-
-
+    public void setNutrients(){
+        double kcal = 0;
+        double fat = 0;
+        double fiber = 0;
+        double proteins = 0;
+        double carbs = 0;
+        for(Map.Entry<Product,Double> entry: ingredients.entrySet()){
+            Product product = entry.getKey();
+            kcal += product.getKcal() * entry.getValue();
+            fat += product.getFat() * entry.getValue();
+            fiber += product.getFiber() * entry.getValue();
+            proteins += product.getProteins() * entry.getValue();
+            carbs += product.getCarbs() * entry.getValue();
+        }
+        this.setKcal(kcal);
+        this.setFat(fat);
+        this.setFiber(fiber);
+        this.setProteins(proteins);
+        this.setCarbs(carbs);
+    }
 }

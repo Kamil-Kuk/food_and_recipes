@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +23,11 @@ public class ProductService {
     }
 
     public List<Product> getByName(String productName){
-        return productRepository.findByNameContainsIgnoreCase(productName);
+        return productRepository.findByNameStartingWithIgnoreCase(productName);
+    }
+
+    public List<Product> getByNameAndWeightUnit(String productName, String weightUnit){
+        return productRepository.findByNameStartingWithIgnoreCaseAndWeightUnit(productName, weightUnit);
     }
 
 }
