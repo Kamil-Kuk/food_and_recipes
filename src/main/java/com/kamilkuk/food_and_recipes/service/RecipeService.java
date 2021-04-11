@@ -1,5 +1,7 @@
 package com.kamilkuk.food_and_recipes.service;
 
+import com.kamilkuk.food_and_recipes.model.CusineCategory;
+import com.kamilkuk.food_and_recipes.model.CusineRegion;
 import com.kamilkuk.food_and_recipes.model.Recipe;
 import com.kamilkuk.food_and_recipes.repository.ProductRepository;
 import com.kamilkuk.food_and_recipes.repository.RecipeRepository;
@@ -41,5 +43,17 @@ public class RecipeService {
         }catch (NoSuchElementException e){
             return true;
         }
+    }
+
+    public List<Recipe> getByKeyword(String keyWord) {
+        return recipeRepository.findByTitleContaining(keyWord);
+    }
+
+    public List<Recipe> getByCategory(String category) {
+        return recipeRepository.findByCategory(CusineCategory.valueOf(category.toUpperCase()));
+    }
+
+    public List<Recipe> getByRegion(String region) {
+        return recipeRepository.findByRegion(CusineRegion.valueOf(region.toUpperCase()));
     }
 }
