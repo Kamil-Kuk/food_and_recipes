@@ -11,4 +11,7 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
     List<Recipe> findByTitleContaining(String keyword);
     List<Recipe> findByCategory(CusineCategory category);
     List<Recipe> findByRegion(CusineRegion region);
+    List<Recipe> findByKcalBetween(Double minKcal, Double maxKcal);
+    List<Recipe> findByKcalLessThanEqual(Double maxKcal);
+    List<Recipe> findByKcalGreaterThanEqual(Double minKcal);
 }

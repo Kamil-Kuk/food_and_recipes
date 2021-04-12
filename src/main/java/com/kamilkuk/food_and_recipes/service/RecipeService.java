@@ -2,14 +2,14 @@ package com.kamilkuk.food_and_recipes.service;
 
 import com.kamilkuk.food_and_recipes.model.CusineCategory;
 import com.kamilkuk.food_and_recipes.model.CusineRegion;
+import com.kamilkuk.food_and_recipes.model.Product;
 import com.kamilkuk.food_and_recipes.model.Recipe;
 import com.kamilkuk.food_and_recipes.repository.ProductRepository;
 import com.kamilkuk.food_and_recipes.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 
 @Service
@@ -55,5 +55,26 @@ public class RecipeService {
 
     public List<Recipe> getByRegion(String region) {
         return recipeRepository.findByRegion(CusineRegion.valueOf(region.toUpperCase()));
+    }
+
+    public List<Recipe> getByKcalBetween(Double kcalMin, Double kcalMax) {
+        return recipeRepository.findByKcalBetween(kcalMin,kcalMax);
+    }
+
+    public List<Recipe> getByKcalLessThan(Double kcalMax) {
+        return recipeRepository.findByKcalLessThanEqual(kcalMax);
+    }
+
+    public List<Recipe> getByKcalGreaterThan(Double kcalMin) {
+        return recipeRepository.findByKcalGreaterThanEqual(kcalMin);
+    }
+
+    public List<String> getShoppingList(Long recipeId){
+        Recipe recipe = get(recipeId);
+        List<String> shoppingList = new ArrayList<>();
+        for(Map.Entry<Product,Double> entry: recipe.getIngredients().entrySet()){
+            shoppingList.add(entry.getKey().getName() + ": " + entry.getValue() + " " + entry.getKey().getWeightUnit() + "(s)");
+        }
+        return shoppingList;
     }
 }

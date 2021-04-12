@@ -24,6 +24,16 @@ public class RecipeController {
         return ResponseEntity.ok(recipeService.get(id));
     }
 
+//    @GetMapping("/{id}/shoppingList")
+//    public ResponseEntity<Map<Product,Double>> getShoppingList(@PathVariable Long id){
+//        return ResponseEntity.ok(recipeService.get(id).getIngredients());
+//    }
+
+    @GetMapping("/{id}/shoppingList")
+    public ResponseEntity<List<String>> getShoppingList(@PathVariable Long id){
+        return ResponseEntity.ok(recipeService.getShoppingList(id));
+    }
+
     @GetMapping("/search/title")
     public ResponseEntity<List<Recipe>> findByTitle(@RequestParam String keyword){
         return ResponseEntity.ok(recipeService.getByKeyword(keyword));
@@ -39,8 +49,22 @@ public class RecipeController {
         return ResponseEntity.ok(recipeService.getByRegion(region));
     }
 
+    @GetMapping("/search/kcal")
+    public ResponseEntity<List<Recipe>> findByKcalRange(@RequestParam(required = false) Double min, @RequestParam(required = false) Double max){
+        if(min!=null && max!=null){
+            return ResponseEntity.ok(recipeService.getByKcalBetween(min, max));
+        } else if(max!=null){
+            return ResponseEntity.ok(recipeService.getByKcalLessThan(max));
+        } else if(min!=null){
+            return ResponseEntity.ok(recipeService.getByKcalGreaterThan(min));
+        } else{
+            return ResponseEntity.status(400).build();
+        }
+    }
+
     @PostMapping
     public ResponseEntity<Recipe> save(@RequestBody Recipe recipe){
+        recipe.setIngredients(null);
         return ResponseEntity.ok(recipeService.save(recipe));
     }
 

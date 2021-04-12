@@ -1,5 +1,8 @@
 package com.kamilkuk.food_and_recipes.model;
 
+import com.fasterxml.jackson.annotation.JacksonInject;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,8 +12,8 @@ import javax.validation.constraints.Size;
 import java.util.Map;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class Recipe {
 
@@ -64,3 +67,4 @@ public class Recipe {
         this.setCarbs(carbs);
     }
 }
+

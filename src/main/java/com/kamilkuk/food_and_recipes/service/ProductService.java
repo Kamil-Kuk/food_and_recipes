@@ -30,4 +30,12 @@ public class ProductService {
         return productRepository.findByNameStartingWithIgnoreCaseAndWeightUnit(productName, weightUnit);
     }
 
+    public List<Product> getAll(){
+        return productRepository.findAll();
+    }
+
+    public Product update(Product product){
+        return productRepository.save(product);
+    }
+
 }
