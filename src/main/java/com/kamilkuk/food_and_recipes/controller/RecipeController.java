@@ -13,7 +13,6 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/recipes")
-@EnableGlobalMethodSecurity(securedEnabled = true)
 public class RecipeController {
     private final RecipeService recipeService;
 
@@ -65,19 +64,19 @@ public class RecipeController {
         }
     }
 
-    @Secured("ROLE_ADMIN")
+    @Secured({"ROLE_ADMIN"})
     @PostMapping
     public ResponseEntity<Recipe> save(@RequestBody Recipe recipe){
         return ResponseEntity.ok(recipeService.save(recipe));
     }
 
-    @Secured("ROLE_ADMIN")
+    @Secured({"ROLE_ADMIN"})
     @PatchMapping
     public ResponseEntity<Recipe> update(@RequestBody Recipe recipe){
         return ResponseEntity.ok(recipeService.update(recipe));
     }
 
-    @Secured("ROLE_ADMIN")
+    @Secured({"ROLE_ADMIN"})
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> delete(@PathVariable Long id){
         return ResponseEntity.ok(recipeService.remove(id));

@@ -13,7 +13,6 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/products")
-@EnableGlobalMethodSecurity(securedEnabled = true)
 public class ProductController {
 
     private final ProductService productService;
@@ -28,19 +27,19 @@ public class ProductController {
         return ResponseEntity.ok(productService.get(id));
     }
 
-    @Secured("ROLE_ADMIN")
+    @Secured({"ROLE_ADMIN"})
     @PostMapping
     public ResponseEntity<Product> save(@RequestBody Product product){
         return ResponseEntity.ok(productService.save(product));
     }
 
-    @Secured("ROLE_ADMIN")
+    @Secured({"ROLE_ADMIN"})
     @PatchMapping
     public ResponseEntity<Product> update(@RequestBody Product product){
         return ResponseEntity.ok(productService.update(product));
     }
 
-    @Secured("ROLE_ADMIN")
+    @Secured({"ROLE_ADMIN"})
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> delete(@PathVariable Long id){
         return ResponseEntity.ok(productService.remove(id));
