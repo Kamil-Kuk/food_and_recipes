@@ -4,6 +4,8 @@ import com.kamilkuk.food_and_recipes.model.Recipe;
 import com.kamilkuk.food_and_recipes.service.RecipeService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,6 +13,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/recipes")
+@EnableGlobalMethodSecurity(securedEnabled = true)
 public class RecipeController {
     private final RecipeService recipeService;
 
@@ -62,16 +65,19 @@ public class RecipeController {
         }
     }
 
+    @Secured("ROLE_ADMIN")
     @PostMapping
     public ResponseEntity<Recipe> save(@RequestBody Recipe recipe){
         return ResponseEntity.ok(recipeService.save(recipe));
     }
 
+    @Secured("ROLE_ADMIN")
     @PatchMapping
     public ResponseEntity<Recipe> update(@RequestBody Recipe recipe){
         return ResponseEntity.ok(recipeService.update(recipe));
     }
 
+    @Secured("ROLE_ADMIN")
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> delete(@PathVariable Long id){
         return ResponseEntity.ok(recipeService.remove(id));
