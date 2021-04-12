@@ -64,7 +64,6 @@ public class RecipeController {
 
     @PostMapping
     public ResponseEntity<Recipe> save(@RequestBody Recipe recipe){
-        recipe.setIngredients(null);
         return ResponseEntity.ok(recipeService.save(recipe));
     }
 

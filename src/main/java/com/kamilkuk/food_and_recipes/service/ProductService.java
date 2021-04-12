@@ -38,4 +38,13 @@ public class ProductService {
         return productRepository.save(product);
     }
 
+    public boolean remove(Long id){
+        productRepository.delete(get(id));
+        try{
+            get(id);
+            return false;
+        }catch (NoSuchElementException e){
+            return true;
+        }
+    }
 }
