@@ -1,5 +1,6 @@
 package com.kamilkuk.food_and_recipes.controller;
 
+import com.kamilkuk.food_and_recipes.mapper.RecipeDto;
 import com.kamilkuk.food_and_recipes.model.Recipe;
 import com.kamilkuk.food_and_recipes.service.RecipeService;
 import lombok.AllArgsConstructor;
@@ -66,14 +67,14 @@ public class RecipeController {
 
     @Secured({"ROLE_ADMIN"})
     @PostMapping
-    public ResponseEntity<Recipe> save(@RequestBody Recipe recipe){
-        return ResponseEntity.ok(recipeService.save(recipe));
+    public ResponseEntity<Recipe> save(@RequestBody RecipeDto dto){
+        return ResponseEntity.ok(recipeService.save(dto));
     }
 
     @Secured({"ROLE_ADMIN"})
     @PatchMapping
-    public ResponseEntity<Recipe> update(@RequestBody Recipe recipe){
-        return ResponseEntity.ok(recipeService.update(recipe));
+    public ResponseEntity<Recipe> update(@RequestBody RecipeDto dto){
+        return ResponseEntity.ok(recipeService.update(dto));
     }
 
     @Secured({"ROLE_ADMIN"})

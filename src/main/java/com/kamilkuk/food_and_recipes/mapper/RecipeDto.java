@@ -1,5 +1,7 @@
 package com.kamilkuk.food_and_recipes.mapper;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.kamilkuk.food_and_recipes.model.Product;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,7 +18,8 @@ public class RecipeDto {
     private String imageURL;
     private String youTubeURL;
     private String instructions;
-    private Map<Product, Double> ingredients;
+    @JsonIgnore
+    private Map<ProductDto, Double> ingredients;
     private String region;
     private String category;
     private double kcal;
