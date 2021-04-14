@@ -1,8 +1,11 @@
 package com.kamilkuk.food_and_recipes.service;
 
 import com.kamilkuk.food_and_recipes.model.Product;
+import com.kamilkuk.food_and_recipes.mapper.ProductDto;
+import com.kamilkuk.food_and_recipes.mapper.ProductMapper;
 import com.kamilkuk.food_and_recipes.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,8 +16,10 @@ import java.util.NoSuchElementException;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    ProductMapper mapper = Mappers.getMapper(ProductMapper.class);
 
-    public Product save(Product product){
+    public Product save(ProductDto productDto){
+        Product product = mapper.dtoToProduct(productDto);
         return productRepository.save(product);
     }
 
@@ -34,7 +39,8 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public Product update(Product product){
+    public Product update(ProductDto productDto){
+        Product product = mapper.dtoToProduct(productDto);
         return productRepository.save(product);
     }
 

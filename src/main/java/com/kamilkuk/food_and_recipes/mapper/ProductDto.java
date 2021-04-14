@@ -1,23 +1,15 @@
-package com.kamilkuk.food_and_recipes.model;
+package com.kamilkuk.food_and_recipes.mapper;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
-
-import javax.persistence.*;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@ToString
-public class Product {
+public class ProductDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
     private String weightUnit;
     private double weight;
@@ -26,5 +18,4 @@ public class Product {
     private double fat;
     private double carbs;
     private double fiber;
-
 }
