@@ -1,7 +1,6 @@
 package com.kamilkuk.food_and_recipes.controller;
 
 import com.kamilkuk.food_and_recipes.model.Product;
-import com.kamilkuk.food_and_recipes.mapper.ProductDto;
 import com.kamilkuk.food_and_recipes.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -27,16 +26,18 @@ public class ProductController {
         return ResponseEntity.ok(productService.get(id));
     }
 
+
     @Secured({"ROLE_ADMIN"})
     @PostMapping
-    public ResponseEntity<Product> save(@RequestBody ProductDto productDto){
-        return ResponseEntity.ok(productService.save(productDto));
+    public ResponseEntity<Product> save(@RequestBody Product product){
+        return ResponseEntity.ok(productService.save(product));
     }
+
 
     @Secured({"ROLE_ADMIN"})
     @PatchMapping
-    public ResponseEntity<Product> update(@RequestBody ProductDto productDto){
-        return ResponseEntity.ok(productService.update(productDto));
+    public ResponseEntity<Product> update(@RequestBody Product product){
+        return ResponseEntity.ok(productService.update(product));
     }
 
     @Secured({"ROLE_ADMIN"})
