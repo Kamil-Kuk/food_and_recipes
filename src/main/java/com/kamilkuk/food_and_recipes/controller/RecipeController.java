@@ -6,6 +6,7 @@ import com.kamilkuk.food_and_recipes.service.RecipeService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
 public class RecipeController {
     private final RecipeService recipeService;
 
+    @Transactional
     @GetMapping
     public ResponseEntity<List<Recipe>> getAll(){
         return ResponseEntity.ok(recipeService.getAll());

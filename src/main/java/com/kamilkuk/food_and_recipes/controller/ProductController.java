@@ -5,6 +5,7 @@ import com.kamilkuk.food_and_recipes.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public class ProductController {
 
     private final ProductService productService;
 
+    @Transactional
     @GetMapping
     public ResponseEntity<List<Product>> getAll(){
         return ResponseEntity.ok(productService.getAll());
