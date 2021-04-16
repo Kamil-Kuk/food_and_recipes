@@ -24,9 +24,8 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("Username not found in database!"));
     }
 
-    public User save(User user){
-        user.setRole(UserRole.ROLE_USER);
-        return userRepository.save(user);
+    public User save(UserDetails user){
+        return userRepository.save((User) user);
     }
 
     public List<User> getAll(){
