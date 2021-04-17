@@ -31,8 +31,8 @@ public class User implements UserDetails{
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    @OneToMany
-    @JsonIgnore
+//    @OneToMany
+//    @JsonIgnore
 //    private Set<Recipe> favourites = new HashSet<>();
 
     @Override
