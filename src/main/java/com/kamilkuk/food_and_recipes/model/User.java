@@ -33,7 +33,7 @@ public class User implements UserDetails{
 
     @OneToMany
     @JsonIgnore
-    private Set<Recipe> favourites = new HashSet<>();
+//    private Set<Recipe> favourites = new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
