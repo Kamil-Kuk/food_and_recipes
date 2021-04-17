@@ -18,7 +18,7 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item"><a class="nav-link" href="#">All recipes</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/search?query=all}">All recipes</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="categories" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Categories
@@ -26,11 +26,11 @@
                     <div class="dropdown-menu" aria-labelledby="categories">
                         <a class="dropdown-item" href="/categories">All categories</a>
                         <hr class="dropdown-divider">
-                        <a class="dropdown-item" href="#">Breakfast</a>
-                        <a class="dropdown-item" href="#">Dinner</a>
-                        <a class="dropdown-item" href="#">Desserts</a>
-                        <a class="dropdown-item" href="#">Side dishes</a>
-                        <a class="dropdown-item" href="#">Vegan & vegetarian</a>
+                        <a class="dropdown-item" th:href="@{/search?category=breakfast}">Breakfast</a>
+                        <a class="dropdown-item" th:href="@{/search?category=dinner}">Dinner</a>
+                        <a class="dropdown-item" th:href="@{/search?category=dessert}">Desserts</a>
+                        <a class="dropdown-item" th:href="@{/search?category=side}">Side dishes</a>
+                        <a class="dropdown-item" th:href="@{/search?category=veganvegetarian}">Vegan & vegetarian</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -40,25 +40,26 @@
                     <div class="dropdown-menu" aria-labelledby="regions">
                         <a class="dropdown-item" href="/regions">All regions</a>
                         <hr class="dropdown-divider">
-                        <a class="dropdown-item" href="#">American</a>
-                        <a class="dropdown-item" href="#">British</a>
-                        <a class="dropdown-item" href="#">Chinese</a>
-                        <a class="dropdown-item" href="#">East European</a>
-                        <a class="dropdown-item" href="#">French</a>
-                        <a class="dropdown-item" href="#">Greek</a>
-                        <a class="dropdown-item" href="#">Indian</a>
-                        <a class="dropdown-item" href="#">Italian</a>
-                        <a class="dropdown-item" href="#">Japanese</a>
-                        <a class="dropdown-item" href="#">Mexican</a>
+                        <a class="dropdown-item" th:href="@{/search?region=american}">American</a>
+                        <a class="dropdown-item" th:href="@{/search?region=british}">British</a>
+                        <a class="dropdown-item" th:href="@{/search?region=chinese}">Chinese</a>
+                        <a class="dropdown-item" th:href="@{/search?region=french}">French</a>
+                        <a class="dropdown-item" th:href="@{/search?region=greek}">Greek</a>
+                        <a class="dropdown-item" th:href="@{/search?region=indian}">Indian</a>
+                        <a class="dropdown-item" th:href="@{/search?region=italian}">Italian</a>
+                        <a class="dropdown-item" th:href="@{/search?region=japanese}">Japanese</a>
+                        <a class="dropdown-item" th:href="@{/search?region=mexican}">Mexican</a>
                     </div>
                 </li>
-                <li><form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search recipes" aria-label="Search">
+                <li><form class="form-inline my-2 my-lg-0" th:action="@{/search}">
+                    <input class="form-control mr-sm-2" type="text" th:name="query" placeholder="Search recipes" aria-label="Search">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                 </form></li>
             </ul>
-            <a class="nav-link navbar-text" href="#">Account</a>
-            <a class="nav-link navbar-text" href="/logout">Logout</a>
+            <a class="nav-link navbar-text" href="/account" th:if="${#authorization.expression('isAuthenticated()')}">My account</a>
+            <a class="nav-link navbar-text" href="/logout" th:if="${#authorization.expression('isAuthenticated()')}">Logout</a>
+            <a class="nav-link navbar-text" href="/register" th:unless="${#authorization.expression('isAuthenticated()')}">Register</a>
+            <a class="nav-link navbar-text" href="/login" th:unless="${#authorization.expression('isAuthenticated()')}">Sign in</a>
 
         </div>
     </div>

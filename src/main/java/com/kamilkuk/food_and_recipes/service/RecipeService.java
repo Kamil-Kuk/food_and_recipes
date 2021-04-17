@@ -51,8 +51,38 @@ public class RecipeService {
         }
     }
 
-    public List<Recipe> getByKeyword(String keyWord) {
-        return recipeRepository.findByTitleContaining(keyWord);
+    private boolean categoryEnumCheck(String s){
+        for(CusineCategory category: CusineCategory.values()){
+            if(category.name().equalsIgnoreCase(s)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean regionEnumCheck(String s){
+        for(CusineRegion region: CusineRegion.values()){
+            if(region.name().equalsIgnoreCase(s)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Set<Recipe> getByKeyword(String keyWord) {
+        Set<Recipe> recipes = new HashSet<>();
+        recipes.addAll(recipeRepository.findByTitleContaining(keyWord));
+        if(categoryEnumCheck(keyWord)){
+            recipes.addAll(recipeRepository.findByCategory(CusineCategory.valueOf(keyWord.toUpperCase())));
+        }
+        if(regionEnumCheck(keyWord)){
+            recipes.addAll(recipeRepository.findByRegion(CusineRegion.valueOf(keyWord.toUpperCase())));
+        }
+        return recipes;
+    }
+
+    public List<Recipe> getByTitle(String title) {
+        return recipeRepository.findByTitleContaining(title);
     }
 
     public List<Recipe> getByCategory(String category) {
@@ -82,5 +112,13 @@ public class RecipeService {
             shoppingList.add(entry.getKey().getName() + ": " + entry.getValue() + " " + entry.getKey().getWeightUnit() + "(s)");
         }
         return shoppingList;
+    }
+
+    public Double getTotalWeight(Recipe recipe){
+        double weight = 0.0;
+        for(Map.Entry<Product,Double> entry: recipe.getIngredients().entrySet()){
+            weight += entry.getKey().getWeight() * entry.getValue();
+        }
+        return weight;
     }
 }

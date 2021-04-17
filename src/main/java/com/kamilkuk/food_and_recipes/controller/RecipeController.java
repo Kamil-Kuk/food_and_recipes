@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @AllArgsConstructor
@@ -39,7 +40,12 @@ public class RecipeController {
     }
 
     @GetMapping("/search/title")
-    public ResponseEntity<List<Recipe>> findByTitle(@RequestParam String keyword){
+    public ResponseEntity<List<Recipe>> findByTitle(@RequestParam String title){
+        return ResponseEntity.ok(recipeService.getByTitle(title));
+    }
+
+    @GetMapping("/search/keyword")
+    public ResponseEntity<Set<Recipe>> findByKeyword(@RequestParam String keyword){
         return ResponseEntity.ok(recipeService.getByKeyword(keyword));
     }
 

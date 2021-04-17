@@ -18,7 +18,7 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item"><a class="nav-link" href="#">All recipes</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/search?query=all}">All recipes</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="categories" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Categories
@@ -26,11 +26,11 @@
                     <div class="dropdown-menu" aria-labelledby="categories">
                         <a class="dropdown-item" href="/categories">All categories</a>
                         <hr class="dropdown-divider">
-                        <a class="dropdown-item" href="#">Breakfast</a>
-                        <a class="dropdown-item" href="#">Dinner</a>
-                        <a class="dropdown-item" href="#">Desserts</a>
-                        <a class="dropdown-item" href="#">Side dishes</a>
-                        <a class="dropdown-item" href="#">Vegan & vegetarian</a>
+                        <a class="dropdown-item" th:href="@{/search?category=breakfast}">Breakfast</a>
+                        <a class="dropdown-item" th:href="@{/search?category=dinner}">Dinner</a>
+                        <a class="dropdown-item" th:href="@{/search?category=dessert}">Desserts</a>
+                        <a class="dropdown-item" th:href="@{/search?category=side}">Side dishes</a>
+                        <a class="dropdown-item" th:href="@{/search?category=veganvegetarian}">Vegan & vegetarian</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -40,20 +40,19 @@
                     <div class="dropdown-menu" aria-labelledby="regions">
                         <a class="dropdown-item" href="/regions">All regions</a>
                         <hr class="dropdown-divider">
-                        <a class="dropdown-item" href="#">American</a>
-                        <a class="dropdown-item" href="#">British</a>
-                        <a class="dropdown-item" href="#">Chinese</a>
-                        <a class="dropdown-item" href="#">East European</a>
-                        <a class="dropdown-item" href="#">French</a>
-                        <a class="dropdown-item" href="#">Greek</a>
-                        <a class="dropdown-item" href="#">Indian</a>
-                        <a class="dropdown-item" href="#">Italian</a>
-                        <a class="dropdown-item" href="#">Japanese</a>
-                        <a class="dropdown-item" href="#">Mexican</a>
+                        <a class="dropdown-item" th:href="@{/search?region=american}">American</a>
+                        <a class="dropdown-item" th:href="@{/search?region=british}">British</a>
+                        <a class="dropdown-item" th:href="@{/search?region=chinese}">Chinese</a>
+                        <a class="dropdown-item" th:href="@{/search?region=french}">French</a>
+                        <a class="dropdown-item" th:href="@{/search?region=greek}">Greek</a>
+                        <a class="dropdown-item" th:href="@{/search?region=indian}">Indian</a>
+                        <a class="dropdown-item" th:href="@{/search?region=italian}">Italian</a>
+                        <a class="dropdown-item" th:href="@{/search?region=japanese}">Japanese</a>
+                        <a class="dropdown-item" th:href="@{/search?region=mexican}">Mexican</a>
                     </div>
                 </li>
-                <li><form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search recipes" aria-label="Search">
+                <li><form class="form-inline my-2 my-lg-0" th:action="@{/search}">
+                    <input class="form-control mr-sm-2" type="text" th:name="query" placeholder="Search recipes" aria-label="Search">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                 </form></li>
             </ul>
@@ -65,21 +64,29 @@
 </nav>
 
 <div class="container">
-    <h2>Search results for: </h2>
+    <h3 class="d-inline">Search results for: </h3>
+    <h4 class="d-inline" th:text="${query!=null} ? ${query}+ ' ' : ''"></h4>
+    <h4 class="d-inline" th:text="${category!=null} ? ${category}+ ' ' : ''"></h4>
+    <h4 class="d-inline" th:text="${region!=null} ? ${region}: ''"></h4>
 
 
     <div class="row row-cols-1 row-cols-md-3 mt-3">
 
         <div class="col mb-4"  th:each="recipe : ${recipes}">
             <div class="card h-100">
-                <img th:src="${recipe.getImageURL()}" class="card-img-top rounded" th:alt="${recipe.getTitle()}">
+                <a th:href="@{|/recipe/${recipe.getId()}|}">
+                <img th:src="${recipe.getImageURL()}" class="card-img-top rounded" th:alt="${recipe.getTitle()}"></a>
                 <div class="card-body">
-                    <h5 class="card-title" th:text="${recipe.getTitle()}"></h5>
-                    <p class="card-text">Lorem ipsum</p>
+                    <a th:href="@{|/recipe/${recipe.getId()}|}">
+                    <h6 class="card-title" th:text="${recipe.getTitle()}"></h6></a>
+<!--                    <p class="card-text" th:href="'/recipe/' + ${recipe.getId()}">Lorem ipsum</p>-->
                 </div>
                 <div class="card-footer">
-                    <small class="btn btn-outline-primary btn-sm" th:href="..." th:text="${recipe.getCategory().toString()}"></small>
-                    <small class="btn btn-outline-primary btn-sm" th:href="..." th:text="${recipe.getRegion().toString()}"></small>
+                    <a th:href="@{|/search?category=${recipe.getCategory().toString().toLowerCase()}|}">
+                    <small class="btn btn-outline-primary btn-sm" th:text="${recipe.getCategory().toString()}"></small></a>
+
+                    <a th:href="@{|/search?region=${recipe.getRegion().toString().toLowerCase()}|}">
+                    <small class="btn btn-outline-primary btn-sm"  th:text="${recipe.getRegion().toString()}"></small></a>
                 </div>
             </div>
         </div>

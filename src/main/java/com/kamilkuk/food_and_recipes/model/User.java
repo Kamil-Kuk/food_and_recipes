@@ -1,5 +1,6 @@
 package com.kamilkuk.food_and_recipes.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,9 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Data
 @NoArgsConstructor
@@ -31,6 +30,10 @@ public class User implements UserDetails{
 
     @Enumerated(EnumType.STRING)
     private UserRole role;
+
+    @OneToMany
+    @JsonIgnore
+    private Set<Recipe> favourites = new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

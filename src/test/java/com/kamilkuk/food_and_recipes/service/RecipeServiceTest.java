@@ -1,8 +1,9 @@
 package com.kamilkuk.food_and_recipes.service;
 
 import com.kamilkuk.food_and_recipes.model.Recipe;
+import com.kamilkuk.food_and_recipes.repository.ProductRepository;
 import com.kamilkuk.food_and_recipes.repository.RecipeRepository;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,6 +19,7 @@ class RecipeServiceTest {
 
     @Mock
     private RecipeRepository repositoryMock;
+    private ProductRepository productMock;
 
     private static Recipe recipe1;
     private static Recipe recipe2;
@@ -56,6 +58,19 @@ class RecipeServiceTest {
 //
 //        //then
 //        Assertions.assertTrue(result);
+    }
+
+    @Test
+    void should_return_boolean_for_enum_category_check(){
+//        //given
+//        String s = "beef";
+//        RecipeService service = new RecipeService(repositoryMock,productMock);
+//
+//        //when
+//        boolean result = service.categoryEnumCheck(s);
+//
+//        //then
+//        Assertions.assertThat(result).isEqualTo(true);
     }
 
 }
