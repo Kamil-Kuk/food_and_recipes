@@ -18,8 +18,8 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item"><a class="nav-link" href="#">All recipes</a></li>
-                <li class="nav-item dropdown">
+                <li class="nav-item"><a class="nav-link" href="/#">All recipes</a></li>
+                <li class="nav-item dropdown active">
                     <a class="nav-link dropdown-toggle" href="#" id="categories" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Categories
                     </a>
@@ -64,15 +64,60 @@
     </div>
 </nav>
 
-<div class="jumbotron">
-    <h1 class="display-4">Hello, world!</h1>
-    <p class="lead">Lorem ipsum.</p>
-    <hr class="my-4">
-    <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
-</div>
+<div class="container">
 
+    <div class="row row-cols-1 row-cols-md-3 mt-3">
+        <div class="col mb-4">
+            <div class="card h-100">
+                <img th:src="@{img/breakfast.jpg}" class="card-img-top" alt="Breakfast">
+                <div class="card-body">
+                    <h6 class="card-title">Breakfast</h6>
+                    <p class="card-text">Find a new way to start your day</p>
+                </div>
+            </div>
+        </div>
+        <div class="col mb-4">
+            <div class="card h-100">
+                <img th:src="@{img/dinner.jpg}" class="card-img-top" alt="Dinner">
+                <div class="card-body">
+                    <h6 class="card-title">Dinner</h6>
+                    <p class="card-text">Share a perfect meal with someone special</p>
+                </div>
+            </div>
+        </div>
+        <div class="col mb-4">
+            <div class="card h-100">
+                <img th:src="@{img/dessert.jpg}" class="card-img-top" alt="Dessert">
+                <div class="card-body">
+                    <h6 class="card-title">Desserts</h6>
+                    <p class="card-text">Because everyone deserves some sweetness in their lives</p>
+                </div>
+            </div>
+        </div>
+        <div class="col mb-4">
+            <div class="card">
+                <img th:src="@{img/side.jpg}" class="card-img-top" alt="Side">
+                <div class="card-body">
+                    <h6 class="card-title">Side dishes</h6>
+                    <p class="card-text">These appetizers will make your mouth water</p>
+                </div>
+            </div>
+        </div>
+        <div class="col mb-4">
+            <div class="card">
+                <img th:src="@{img/vegan.jpg}" class="card-img-top" alt="Side">
+                <div class="card-body">
+                    <h6 class="card-title">Vegan & vegetarian</h6>
+                    <p class="card-text">Awesome ideas for plant-based dishes</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <button type="button" class="btn btn-outline-primary">Primary</button>
+
+</div>
 </body>
 <html>

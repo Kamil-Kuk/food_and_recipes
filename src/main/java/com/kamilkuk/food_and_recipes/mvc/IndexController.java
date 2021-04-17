@@ -1,6 +1,8 @@
 package com.kamilkuk.food_and_recipes.mvc;
+import com.kamilkuk.food_and_recipes.model.CusineCategory;
 import com.kamilkuk.food_and_recipes.model.User;
 import com.kamilkuk.food_and_recipes.model.UserRole;
+import com.kamilkuk.food_and_recipes.service.RecipeService;
 import com.kamilkuk.food_and_recipes.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -8,6 +10,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +23,7 @@ public class IndexController {
 
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
+    private final RecipeService recipeService;
 
     @GetMapping("/")
     public String showIndex(){
@@ -43,6 +47,7 @@ public class IndexController {
     private void addUser(@RequestParam Map<String,String> body){
         User user = new User();
         user.setUsername(body.get("username"));
+//        user.setPassword(passwordEncoder.encode(body.get("password")));
         user.setPassword(body.get("password"));
         user.setRole(UserRole.ROLE_USER);
         userService.save(user);
@@ -59,6 +64,17 @@ public class IndexController {
             error = "Invalid username and password";
         }
         return error;
+    }
+
+    @GetMapping("/categories")
+    public String showCategories() {
+        return "categories";
+    }
+
+    @GetMapping("/search")
+    public String showAddTaskForm(Model model) {
+        model.addAttribute("recipes", recipeService.getByCategory(String.valueOf(CusineCategory.BEEF)));
+        return "search";
     }
 
 }
