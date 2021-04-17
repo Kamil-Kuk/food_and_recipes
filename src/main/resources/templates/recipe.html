@@ -64,27 +64,54 @@
     </div>
 </nav>
 
-<div class="container">
-    <h2>Search results for: </h2>
+        <div class="container col-6">
+            <img th:src="${recipe.getImageURL()}" style="object-fit: none; object-position: center; height: 385px; width: max-content;" class="img-fluid rounded mx-auto d-block" th:alt="${recipe.getTitle()}">
+            <span class="font-weight-light" th:text="${recipe.getCategory().toString().toLowerCase()}"></span>
+            <span class="font-weight-light" th:text="${recipe.getRegion().toString().toLowerCase()}"></span>
+            <h3 class="display-4" th:text="${recipe.getTitle()}"></h3>
+            <hr class="my-4">
 
-
-    <div class="row row-cols-1 row-cols-md-3 mt-3">
-
-        <div class="col mb-4"  th:each="recipe : ${recipes}">
-            <div class="card h-100">
-                <img th:src="${recipe.getImageURL()}" class="card-img-top rounded" th:alt="${recipe.getTitle()}">
-                <div class="card-body">
-                    <h5 class="card-title" th:text="${recipe.getTitle()}"></h5>
-                    <p class="card-text">Lorem ipsum</p>
+<!--              Nutrients values-->
+                <div class="row">
+                    <div class="col">Energy:</div>
+                    <div class="col">Protein:</div>
+                    <div class="col">Fat:</div>
+                    <div class="col">Carbohydrates:</div>
+                    <div class="col">Fiber:</div>
                 </div>
-                <div class="card-footer">
-                    <small class="btn btn-outline-primary btn-sm" th:href="..." th:text="${recipe.getCategory().toString()}"></small>
-                    <small class="btn btn-outline-primary btn-sm" th:href="..." th:text="${recipe.getRegion().toString()}"></small>
-                </div>
+            <div class="row">
+                <div class="col" th:text="${kcal} + ' kcal'"></div>
+                <div class="col" th:text="${protein} + ' g'"></div>
+                <div class="col" th:text="${fat} + ' g'"></div>
+                <div class="col" th:text="${carbs} + ' g'"></div>
+                <div class="col" th:text="${fiber} + ' g'"></div>
+            </div>
+            <hr class="my-4">
+
+<!--            Ingredients-->
+            <div><h5>Ingredients:</h5></div>
+
+            <ul class="list-unstyled" th:each="ingredientEntry : ${ingredients}">
+                    <span th:text="${ingredientEntry.getKey().getName()} + ': '"></span>
+                    <span th:text="${ingredientEntry.getValue()}"></span>
+                    <span th:text="' ' + ${ingredientEntry.getKey().getWeightUnit()} + '(s)'"></span>
+                </li>
+            </ul>
+            <hr class="my-4">
+
+<!--            Instructions-->
+            <div><h5>Instructions:</h5></div>
+            <div  th:each="line : ${instructions}">
+                <p th:text="${line} + '.'"></p>
+            </div>
+            <hr class="my-4">
+
+<!--            Video-->
+            <div class="d-flex justify-content-center">
+            <iframe width="560" height="315" th:src="${youTubeURL}"
+                    title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
             </div>
         </div>
-
-    </div>
-</div>
 </body>
 <html>
