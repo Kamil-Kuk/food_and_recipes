@@ -39,4 +39,8 @@ public class UserService implements UserDetailsService {
     public void remove(Long id){
         userRepository.delete(get(id));
     }
+
+    public User getUserByName(String username){
+        return userRepository.findUserByUsername(username).orElseThrow(()->new NoSuchElementException());
+    }
 }

@@ -56,8 +56,10 @@
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                 </form></li>
             </ul>
-            <a class="nav-link navbar-text" href="#">Account</a>
-            <a class="nav-link navbar-text" href="/logout">Logout</a>
+            <a class="nav-link navbar-text" href="/account" th:if="${#authorization.expression('isAuthenticated()')}">My account</a>
+            <a class="nav-link navbar-text" href="/logout" th:if="${#authorization.expression('isAuthenticated()')}">Logout</a>
+            <a class="nav-link navbar-text" href="/register" th:unless="${#authorization.expression('isAuthenticated()')}">Register</a>
+            <a class="nav-link navbar-text" href="/login" th:unless="${#authorization.expression('isAuthenticated()')}">Sign in</a>
 
         </div>
     </div>

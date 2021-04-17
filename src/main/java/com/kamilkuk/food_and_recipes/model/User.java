@@ -31,9 +31,9 @@ public class User implements UserDetails{
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-//    @OneToMany
-//    @JsonIgnore
-//    private Set<Recipe> favourites = new HashSet<>();
+    @OneToMany
+    @JsonIgnore
+    private Set<Recipe> favourites = new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.security.Principal;
 import java.text.DecimalFormat;
 import java.util.*;
 
@@ -45,11 +46,11 @@ public class IndexController {
     @PostMapping(value = "/register",
                 consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
                 produces = {MediaType.APPLICATION_ATOM_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
-    private String addUser(@RequestParam Map<String,String> body, Errors error){
+    private String addUser(@RequestParam Map<String,String> body){
         User user = new User();
         user.setUsername(body.get("username"));
-//        user.setPassword(passwordEncoder.encode(body.get("password")));
-        user.setPassword(body.get("password"));
+        user.setPassword(passwordEncoder.encode(body.get("password")));
+//        user.setPassword(body.get("password"));
         user.setRole(UserRole.ROLE_USER);
         userService.save(user);
         return "redirect:/login";
@@ -76,6 +77,14 @@ public class IndexController {
             error = "Invalid username and password";
         }
         return error;
+    }
+
+    @GetMapping("/account")
+    public String showAccount(Principal principal, Model model) {
+//        model.addAttribute("user",auth);
+        User user = userService.getUserByName(principal.getName());
+        model.addAttribute("user",user);
+        return "account";
     }
 
     @GetMapping("/categories")

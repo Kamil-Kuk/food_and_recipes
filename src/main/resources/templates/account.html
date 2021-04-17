@@ -20,7 +20,7 @@
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item"><a class="nav-link" th:href="@{/search?query=all}">All recipes</a></li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle active" href="#" id="categories" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="categories" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Categories
                     </a>
                     <div class="dropdown-menu" aria-labelledby="categories">
@@ -56,77 +56,41 @@
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                 </form></li>
             </ul>
-            <a class="nav-link navbar-text" href="/account" th:if="${#authorization.expression('isAuthenticated()')}">My account</a>
-            <a class="nav-link navbar-text" href="/logout" th:if="${#authorization.expression('isAuthenticated()')}">Logout</a>
-            <a class="nav-link navbar-text" href="/register" th:unless="${#authorization.expression('isAuthenticated()')}">Register</a>
-            <a class="nav-link navbar-text" href="/login" th:unless="${#authorization.expression('isAuthenticated()')}">Sign in</a>
+            <a class="nav-link navbar-text active" href="#">Account</a>
+            <a class="nav-link navbar-text" href="/logout">Logout</a>
 
         </div>
     </div>
 </nav>
 
 <div class="container">
+    <h3 class="d-inline">Hello: </h3>
+    <h3 class="d-inline" th:text="${user.getUsername()}"></h3>
+    <hr class="my-4">
 
-    <div class="row row-cols-1 row-cols-md-3 mt-3">
-        <div class="col mb-4">
-            <div class="card h-100">
-                <a th:href="@{/search?category=breakfast}">
-                <img th:src="@{img/breakfast.jpg}" class="card-img-top" alt="Breakfast">
-                <div class="card-body">
-                    <h6 class="card-title">Breakfast</h6></a>
-                    <p class="card-text">Find a new way to start your day</p>
+    <h3 th:if="${!user.getFavourites().isEmpty()}">My favourite recipes:</h3>
+        <div class="row row-cols-1 row-cols-md-3 mt-3">
+            <div class="col mb-4"  th:each="recipe : ${user.getFavourites()}">
+                <div class="card h-100">
+                    <a th:href="@{|/recipe/${recipe.getId()}|}">
+                        <img th:src="${recipe.getImageURL()}" class="card-img-top rounded" th:alt="${recipe.getTitle()}"></a>
+                    <div class="card-body">
+                        <a th:href="@{|/recipe/${recipe.getId()}|}">
+                            <h6 class="card-title" th:text="${recipe.getTitle()}"></h6></a>
+                    </div>
+                    <div class="card-footer">
+                        <button type="button" class="btn btn-outline-secondary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                        </svg>
+                        <span class="visually-hidden">Unlike</span>
+                        </button>
+                    </div>
                 </div>
             </div>
+
         </div>
-        <div class="col mb-4">
-            <div class="card h-100">
-                <a th:href="@{/search?category=dinner}">
-                <img th:src="@{img/dinner.jpg}" class="card-img-top" alt="Dinner">
-                <div class="card-body">
-                    <h6 class="card-title">Dinner</h6></a>
-                    <p class="card-text">Share a perfect meal with someone special</p>
-                </div>
-            </div>
-        </div>
-        <div class="col mb-4">
-            <div class="card h-100">
-                <a th:href="@{/search?category=dessert}">
-                <img th:src="@{img/dessert.jpg}" class="card-img-top" alt="Dessert">
-                <div class="card-body">
-                    <h6 class="card-title">Desserts</h6></a>
-                    <p class="card-text">Because everyone deserves some sweetness in their lives</p>
-                </div>
-            </div>
-        </div>
-        <div class="col mb-4">
-            <div class="card">
-                <a th:href="@{/search?category=side}">
-                <img th:src="@{img/side.jpg}" class="card-img-top" alt="Side">
-                <div class="card-body">
-                    <h6 class="card-title">Side dishes</h6></a>
-                    <p class="card-text">These appetizers will make your mouth water</p>
-                </div>
-            </div>
-        </div>
-        <div class="col mb-4">
-            <div class="card">
-                <a th:href="@{/search?category=veganvegetarian}">
-                <img th:src="@{img/vegan.jpg}" class="card-img-top" alt="Side">
-                <div class="card-body">
-                    <h6 class="card-title">Vegan & vegetarian</h6></a>
-                    <p class="card-text">Awesome ideas for plant-based dishes</p>
-                </div>
-            </div>
-        </div>
+
     </div>
-
-    <hr>
-    <h3>All categories:</h3>
-    <div class="btn-group align-content-center" th:each="category : ${categories}">
-        <a th:href="@{|/search?category=${category}|}">
-    <button type="button" class="btn btn-outline-primary m-1" th:text="${category.toString().toLowerCase()}"></button></a>
-    </div>
-
-</div>
 </body>
 <html>
