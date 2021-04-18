@@ -50,21 +50,10 @@ public class IndexController {
         User user = new User();
         user.setUsername(body.get("username"));
         user.setPassword(passwordEncoder.encode(body.get("password")));
-//        user.setPassword(body.get("password"));
         user.setRole(UserRole.ROLE_USER);
         userService.save(user);
         return "redirect:/login";
     }
-
-//    @PostMapping(value = "/register")
-//    private String addUser(@Valid User user, Errors error){
-//        if(error.hasErrors()){
-//            return "register";
-//        }
-//        user.setRole(UserRole.ROLE_USER);
-//        userService.save(user);
-//        return "redirect:/login";
-//    }
 
     private String getErrorMessage(HttpServletRequest request, String key){
         Exception exception = (Exception) request.getSession().getAttribute(key);
@@ -80,12 +69,21 @@ public class IndexController {
     }
 
     @GetMapping("/account")
-    public String showAccount(Principal principal, Model model) {
+    public String showAccount(Principal principal, Model model,
+                              @RequestParam(value = "recipe",required = false) Long recipeId) {
 //        model.addAttribute("user",auth);
         User user = userService.getUserByName(principal.getName());
         model.addAttribute("user",user);
+        if(recipeId!=null) {
+            Recipe recipe = recipeService.get(recipeId);
+            if (user.getFavourites().contains(recipe)) {
+                userService.removeFavouriteRecipe(user,recipe);
+            }
+        }
         return "account";
     }
+
+
 
     @GetMapping("/categories")
     public String showCategories(Model model) {
@@ -99,55 +97,65 @@ public class IndexController {
         return "regions";
     }
 
-//    @PostMapping
-//    public String submitQuery(Model model){
-//        return
-//    }
-
     @GetMapping("/search")
-    public String showSearchResultsForCategoryOrRegion(Model model,
+    public String showSearchResultsForCategoryOrRegion(Principal principal, Model model,
                                     @RequestParam(value = "query",required = false) String query,
                                     @RequestParam(value = "category",required = false) String category,
-                                    @RequestParam(value = "region", required = false) String region) {
-        Set<Recipe> resultRecipes = new HashSet<>();
-        if(query!=null){
-            if(query.equalsIgnoreCase("all")) {
-                resultRecipes.addAll(recipeService.getAll());
-            }else {
-                resultRecipes.addAll(recipeService.getByKeyword(query));
+                                    @RequestParam(value = "region", required = false) String region,
+                                    @RequestParam(value = "recipe", required = false) Long recipeId) {
+        if(recipeId!=null) {
+            User user = userService.getUserByName(principal.getName());
+            Recipe recipe = recipeService.get(recipeId);
+            userService.addFavouriteRecipe(user, recipe);
+            return "redirect:/search";
+        }else {
+            Set<Recipe> resultRecipes = new HashSet<>();
+            if (query != null) {
+                if (query.equalsIgnoreCase("all")) {
+                    resultRecipes.addAll(recipeService.getAll());
+                } else {
+                    resultRecipes.addAll(recipeService.getByKeyword(query));
+                }
+                model.addAttribute("query", query.toLowerCase());
             }
-            model.addAttribute("query",query.toLowerCase());
-        }
-        if(category!=null){
-            if(category.equalsIgnoreCase("dinner")) {
-                resultRecipes.addAll(recipeService.getByCategory("beef"));
-                resultRecipes.addAll(recipeService.getByCategory("chicken"));
-                resultRecipes.addAll(recipeService.getByCategory("goat"));
-                resultRecipes.addAll(recipeService.getByCategory("lamb"));
-                resultRecipes.addAll(recipeService.getByCategory("pasta"));
-                resultRecipes.addAll(recipeService.getByCategory("pork"));
-                resultRecipes.addAll(recipeService.getByCategory("seafood"));
-                resultRecipes.addAll(recipeService.getByCategory("vegan"));
-                resultRecipes.addAll(recipeService.getByCategory("vegetarian"));
-            }else if(category.equalsIgnoreCase("side")){
-                resultRecipes.addAll(recipeService.getByCategory(category));
-                resultRecipes.addAll(recipeService.getByCategory("starter"));
-            }else if(category.equalsIgnoreCase("veganvegetarian")){
-                resultRecipes.addAll(recipeService.getByCategory("vegan"));
-                resultRecipes.addAll(recipeService.getByCategory("vegetarian"));
-                category = "vegan vegetarian";
-            }else {
-                resultRecipes.addAll(recipeService.getByCategory(category));
+            if (category != null) {
+                if (category.equalsIgnoreCase("dinner")) {
+                    resultRecipes.addAll(recipeService.getByCategory("beef"));
+                    resultRecipes.addAll(recipeService.getByCategory("chicken"));
+                    resultRecipes.addAll(recipeService.getByCategory("goat"));
+                    resultRecipes.addAll(recipeService.getByCategory("lamb"));
+                    resultRecipes.addAll(recipeService.getByCategory("pasta"));
+                    resultRecipes.addAll(recipeService.getByCategory("pork"));
+                    resultRecipes.addAll(recipeService.getByCategory("seafood"));
+                    resultRecipes.addAll(recipeService.getByCategory("vegan"));
+                    resultRecipes.addAll(recipeService.getByCategory("vegetarian"));
+                } else if (category.equalsIgnoreCase("side")) {
+                    resultRecipes.addAll(recipeService.getByCategory(category));
+                    resultRecipes.addAll(recipeService.getByCategory("starter"));
+                } else if (category.equalsIgnoreCase("veganvegetarian")) {
+                    resultRecipes.addAll(recipeService.getByCategory("vegan"));
+                    resultRecipes.addAll(recipeService.getByCategory("vegetarian"));
+                    category = "vegan vegetarian";
+                } else {
+                    resultRecipes.addAll(recipeService.getByCategory(category));
+                }
+                model.addAttribute("category", category.toLowerCase());
             }
-            model.addAttribute("category", category.toLowerCase());
+            if (region != null) {
+                resultRecipes.addAll(recipeService.getByRegion(region));
+                model.addAttribute("region", region.toLowerCase());
+            }
+            model.addAttribute("recipes", resultRecipes);
+            return "search";
         }
-        if(region!=null){
-            resultRecipes.addAll(recipeService.getByRegion(region));
-            model.addAttribute("region",region.toLowerCase());
-        }
+    }
 
-        model.addAttribute("recipes", resultRecipes);
-        return "search";
+    @PostMapping("/account/addrecipe")
+    public String addFavourite(Recipe recipe,
+                          Principal principal) {
+        User user = userService.getUserByName(principal.getName());
+        userService.addFavouriteRecipe(user, recipe);
+        return "redirect:/search";
     }
 
     @GetMapping("/recipe/{id}")

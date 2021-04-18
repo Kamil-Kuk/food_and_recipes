@@ -1,5 +1,6 @@
 package com.kamilkuk.food_and_recipes.service;
 
+import com.kamilkuk.food_and_recipes.model.Recipe;
 import com.kamilkuk.food_and_recipes.model.User;
 import com.kamilkuk.food_and_recipes.model.UserRole;
 import com.kamilkuk.food_and_recipes.repository.UserRepository;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -42,5 +44,19 @@ public class UserService implements UserDetailsService {
 
     public User getUserByName(String username){
         return userRepository.findUserByUsername(username).orElseThrow(()->new NoSuchElementException());
+    }
+
+    public void removeFavouriteRecipe(User user, Recipe recipe){
+        Set<Recipe> favs = user.getFavourites();
+        favs.remove(recipe);
+        user.setFavourites(favs);
+        userRepository.save(user);
+    }
+
+    public void addFavouriteRecipe(User user, Recipe recipe){
+        Set<Recipe> favs = user.getFavourites();
+        favs.add(recipe);
+        user.setFavourites(favs);
+        userRepository.save(user);
     }
 }

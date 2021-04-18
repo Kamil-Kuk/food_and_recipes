@@ -56,7 +56,7 @@
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                 </form></li>
             </ul>
-            <a class="nav-link navbar-text active" href="#">Account</a>
+            <a class="nav-link navbar-text active" href="#">My account</a>
             <a class="nav-link navbar-text" href="/logout">Logout</a>
 
         </div>
@@ -79,12 +79,13 @@
                             <h6 class="card-title" th:text="${recipe.getTitle()}"></h6></a>
                     </div>
                     <div class="card-footer">
-                        <button type="button" class="btn btn-outline-secondary">
+                        <a th:href="@{'/account/?recipe=' + ${recipe.getId()}}">
+                        <button type="button" class="btn btn-outline-secondary" >
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
                             <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
                         </svg>
                         <span class="visually-hidden">Unlike</span>
-                        </button>
+                        </button></a>
                     </div>
                 </div>
             </div>

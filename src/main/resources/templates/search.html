@@ -88,7 +88,25 @@
                     <small class="btn btn-outline-primary btn-sm" th:text="${recipe.getCategory().toString()}"></small></a>
 
                     <a th:href="@{|/search?region=${recipe.getRegion().toString().toLowerCase()}|}">
-                    <small class="btn btn-outline-primary btn-sm"  th:text="${recipe.getRegion().toString()}"></small></a>
+                    <small class="btn btn-outline-primary btn-sm btn-sm"  th:text="${recipe.getRegion().toString()}"></small></a>
+
+                    <a th:if="${#authorization.expression('isAuthenticated()')}" th:href="@{'/search?recipe=' + ${recipe.getId()}}">
+                        <button type="button" class="btn btn-outline-primary" >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                            </svg>
+                            <span class="visually-hidden">Like</span>
+                        </button></a>
+
+<!--                    <form action="#" th:action="@{/account/addfav}" th:object="${recipe}" method="post" th:if="${#authorization.expression('isAuthenticated()')}">-->
+<!--                        <button type="submit" class="btn btn-outline-secondary">-->
+<!--                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">-->
+<!--                                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>-->
+<!--                            </svg>-->
+<!--                            <span class="visually-hidden">Like</span>-->
+<!--                        </button></form>-->
+
+
                 </div>
             </div>
         </div>
