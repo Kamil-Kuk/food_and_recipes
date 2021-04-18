@@ -98,17 +98,10 @@ public class IndexController {
     }
 
     @GetMapping("/search")
-    public String showSearchResultsForCategoryOrRegion(Principal principal, Model model,
+    public String showSearchResultsForCategoryOrRegion(Model model,
                                     @RequestParam(value = "query",required = false) String query,
                                     @RequestParam(value = "category",required = false) String category,
-                                    @RequestParam(value = "region", required = false) String region,
-                                    @RequestParam(value = "recipe", required = false) Long recipeId) {
-        if(recipeId!=null) {
-            User user = userService.getUserByName(principal.getName());
-            Recipe recipe = recipeService.get(recipeId);
-            userService.addFavouriteRecipe(user, recipe);
-            return "redirect:/search";
-        }else {
+                                    @RequestParam(value = "region", required = false) String region) {
             Set<Recipe> resultRecipes = new HashSet<>();
             if (query != null) {
                 if (query.equalsIgnoreCase("all")) {
@@ -148,24 +141,36 @@ public class IndexController {
             model.addAttribute("recipes", resultRecipes);
             return "search";
         }
-    }
 
-    @PostMapping("/account/addrecipe")
-    public String addFavourite(Recipe recipe,
+
+    @GetMapping("/recipe/{id}/add")
+    public String addFavourite(Recipe recipe, @PathVariable Long id,
                           Principal principal) {
         User user = userService.getUserByName(principal.getName());
         userService.addFavouriteRecipe(user, recipe);
-        return "redirect:/search";
+        return "redirect:/recipe/{id}";
+    }
+
+    @GetMapping("/recipe/{id}/del")
+    public String delFavourite(Recipe recipe, @PathVariable Long id,
+                               Principal principal) {
+        User user = userService.getUserByName(principal.getName());
+        userService.removeFavouriteRecipe(user,recipe);
+        return "redirect:/recipe/{id}";
     }
 
     @GetMapping("/recipe/{id}")
-    public String showRecipePage(Model model, @PathVariable Long id) {
+    public String showRecipePage(Model model, @PathVariable Long id, Principal principal) {
         Recipe recipe = recipeService.get(id);
         Map<Product, String> ingredients = new HashMap<>();
         DecimalFormat df = new DecimalFormat("###.#");
         for(Map.Entry<Product,Double> entry: recipe.getIngredients().entrySet()){
             String quantity = df.format(entry.getValue());
             ingredients.put(entry.getKey(),quantity);
+        }
+        if(principal!=null){
+            User user = userService.getUserByName(principal.getName());
+            model.addAttribute("recipeLiked",user.getFavourites().contains(recipe));
         }
         model.addAttribute("recipe", recipe);
         model.addAttribute("weight", String.format("%.0f",recipeService.getTotalWeight(recipe)));

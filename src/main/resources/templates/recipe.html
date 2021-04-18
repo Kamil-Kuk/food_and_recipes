@@ -70,6 +70,25 @@
             <span class="font-weight-light" th:text="${recipe.getCategory().toString().toLowerCase()}"></span>
             <span class="font-weight-light" th:text="${recipe.getRegion().toString().toLowerCase()}"></span>
             <h3 class="display-4" th:text="${recipe.getTitle()}"></h3>
+
+            <a th:if="${#authorization.expression('isAuthenticated()')}">
+                <a th:if="${recipeLiked}" th:href="@{|/recipe/${recipe.getId()}/del|}">
+                <button type="button" class="btn btn-outline-primary btn-sm" >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                    </svg>
+                    <span class="visually-hidden">Unlike</span>
+                </button></a>
+
+                <a th:unless="${recipeLiked}" th:href="@{|/recipe/${recipe.getId()}/add|}">
+                    <button type="button" class="btn btn-outline-primary btn-sm" >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                        </svg>
+                        <span class="visually-hidden">Like</span>
+                    </button></a>
+                </a>
+
             <hr class="my-4">
 
 <!--              Nutrients values-->
