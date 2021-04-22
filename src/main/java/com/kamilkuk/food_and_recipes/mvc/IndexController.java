@@ -144,16 +144,18 @@ public class IndexController {
 
 
     @GetMapping("/recipe/{id}/add")
-    public String addFavourite(Recipe recipe, @PathVariable Long id,
+    public String addFavourite(@PathVariable Long id,
                           Principal principal) {
+        Recipe recipe = recipeService.get(id);
         User user = userService.getUserByName(principal.getName());
         userService.addFavouriteRecipe(user, recipe);
         return "redirect:/recipe/{id}";
     }
 
     @GetMapping("/recipe/{id}/del")
-    public String delFavourite(Recipe recipe, @PathVariable Long id,
+    public String delFavourite(@PathVariable Long id,
                                Principal principal) {
+        Recipe recipe = recipeService.get(id);
         User user = userService.getUserByName(principal.getName());
         userService.removeFavouriteRecipe(user,recipe);
         return "redirect:/recipe/{id}";
