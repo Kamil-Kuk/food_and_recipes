@@ -74,6 +74,9 @@
 
     <div class="row row-cols-1 row-cols-md-3 mt-3">
 
+        <div th:if="${recipes.isEmpty()}">
+            <h5>No results</h5>
+        </div>
         <div class="col mb-4"  th:each="recipe : ${recipes}">
             <div class="card h-100">
                 <a th:href="@{|/recipe/${recipe.getId()}|}">
@@ -81,7 +84,6 @@
                 <div class="card-body">
                     <a th:href="@{|/recipe/${recipe.getId()}|}">
                     <h6 class="card-title" th:text="${recipe.getTitle()}"></h6></a>
-<!--                    <p class="card-text" th:href="'/recipe/' + ${recipe.getId()}">Lorem ipsum</p>-->
                 </div>
                 <div class="card-footer">
                     <a th:href="@{|/search?category=${recipe.getCategory().toString().toLowerCase()}|}">
